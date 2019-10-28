@@ -20,6 +20,25 @@ def generate_random(table):
 
     generated = ''
 
+    letters = "abcdefghijklmnopqrstuvwxyz"
+    capitals = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    symbols = "&#"
+
+    while True:
+        for i in range(1):
+            generated += letters[random.randint(0,26)]
+        for i in range(1):
+            generated += capitals[random.randint(0,26)]
+        for i in range(2):
+            generated += str(random.randint(0,9))
+        for i in range(1):
+            generated += capitals[random.randint(0,26)]
+        for i in range(1):
+            generated += letters[random.randint(0,26)]
+        for i in range(2):
+            generated += symbols[random.randint(0,2)]
+            
+
     # your code
 
     return generated

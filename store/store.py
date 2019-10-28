@@ -17,6 +17,12 @@ import data_manager
 # common module
 import common
 
+ID = 0
+TITLE = 1
+MANUFACTURER = 2
+PRICE = 3
+STOCK = 4 
+
 
 def start_module():
     """
@@ -27,6 +33,41 @@ def start_module():
     Returns:
         None
     """
+    table = data_manager.get_table_from_file("store/games.csv")
+
+    options = ["Add a new game",
+               "Remove a game",
+               "Show all games",
+               "Update game store",
+               "Check stock by Manufacturer",
+               "Show all games averages by Manufacturer"]
+
+    while True:
+        ui.print_menu("Game Store", options, "Return to main menu")
+        inputs = ui.get_inputs(["Choose an option: "], "")
+        option = inputs[0]
+        if option == "1":
+            add(table)
+            data_manager.write_table_to_file("store/games.csv", table)
+        elif option == "2":
+            inputs = ui.get_inputs(["Add ID of a game: "], "")
+            remove(table,inputs[0])
+            data_manager.write_table_to_file("store/games.csv", table)
+        elif option == "3":
+            show_table(table)
+        elif option == "4":
+            inputs = ui.get_inputs(["Enter game ID: "], "")
+            update(table, inputs[0])
+            data_manager.write_table_to_file("games.csv", table)
+        elif option == "5":
+            inputs = ui.get_inputs(["Enter Manufacturer: "], "")
+            get_counts_by_manufacturers(table,inputs[0])
+        elif option == "6":
+            get_average_by_manufacturer(table,inputs[0])
+        elif option == "0":
+            break
+        else:
+            raise KeyError("There is no such option.")
 
     # your code
 
@@ -41,7 +82,8 @@ def show_table(table):
     Returns:
         None
     """
-
+    
+    ui.print_table(table, ["ID", "TITLE", "MANUFACTURER", "PRICE", "STOCK"])
     # your code
 
 
@@ -57,8 +99,17 @@ def add(table):
     """
 
     # your code
+    row = []
+    row.append(common.generate_random(table))
+
+    inputs = ui.get_inputs(["TITLE: ", "MANUFACTURER: ", "PRICE: ", "STOCK: "], "Fill the records below: ")
+    for i in inputs:
+        row.append(i)
+
+    table.append(row)
 
     return table
+
 
 
 def remove(table, id_):
@@ -74,6 +125,14 @@ def remove(table, id_):
     """
 
     # your code
+    for i, row in enumerate(table):
+        if row[ID] == id_:
+            table.pop(i)
+            return table
+
+    ui.print_error_message("Wrong ID!")
+
+    return table
 
     return table
 

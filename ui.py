@@ -24,6 +24,35 @@ def print_table(table, title_list):
 
     # your goes code
 
+    width_titles = []
+    for title in title_list:
+        width_titles.append(len(title))
+    sum_lenght = 0
+    for j in range(len(title_list)):
+        for i in table:
+            if len(str(i[j])) > width_titles[j]:
+                width_titles[j] = len(str(i[j]))
+    for i in range(len(width_titles)):
+        width_titles[i] += 2
+        sum_lenght += width_titles[i] + 1
+    sum_line = "-" * (sum_lenght-1)  
+    just_line = ("|" + sum_line + "|")
+    end_line = ("\\" + sum_line + "/")
+    print("/" + sum_line + "\\")
+    print("|", end ="")
+    for index in range(len(title_list)):
+        print((title_list[index]).center(width_titles[index]) + "|",end="")
+    print()
+    print(just_line)
+    for i in range(len(table)):
+        print("|",end="")
+        for j in range(len(title_list)):
+            print(((str(table[i][j])).center(width_titles[j])) + "|",end="")
+        print()
+        if i+1 == len(table):
+            print(end_line)
+        else:
+            print(just_line)
 
 def print_result(result, label):
     """
@@ -38,7 +67,15 @@ def print_result(result, label):
     """
 
     # your code
-
+    print(label)
+    if type(result) is str or type(result) is int or type(result) is float:
+        print(result)
+    elif type(result) is list:
+        for item in result:
+            print(item)
+    elif type(result) is dict:
+        for key in result:
+            print(str(key) + " : " + str(result[key]))
 
 def print_menu(title, list_options, exit_message):
     """
@@ -62,8 +99,13 @@ def print_menu(title, list_options, exit_message):
     """
 
     # your code
-
-
+    print(title)
+    index = 1
+    for row in list_options:
+        print(chr(9) + "(" + str(index) + ") " + row)
+        index += 1
+    print(chr(9) + "(0) " + exit_message)
+    
 def get_inputs(list_labels, title):
     """
     Gets list of inputs from the user.
@@ -87,8 +129,10 @@ def get_inputs(list_labels, title):
 
     # your code
 
+    print(title)
+    for index in range(len(list_labels)):
+        inputs.append(input(list_labels[index]))
     return inputs
-
 
 def print_error_message(message):
     """
@@ -102,3 +146,4 @@ def print_error_message(message):
     """
 
     # your code
+    print("``Error: " + message + "``")
